@@ -7,16 +7,38 @@
         <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
-        <form action="/send" method="post">
-            <label for="sender email">sender email</label>
-            <input type="email" name="smail" id="sender-email">
             <label for="reciever email">reciever email</label>
-            <input type="email" name="rmail" id="reciever-email">
+            <input type="email" name="rmail" id="rmail">
+			<br>
             <label for="subject">subject</label>
-            <input type="text" name="subject">
+            <input type="text" name="subject" id = "subject">
+			<br>
             <label for="message">message</label>
-            <input type="text" name="message">
-            <button type="submit" style="background-color: red;">Send</button>
-        </form>
+            <input type="text" name="message" id="msg">
+			<br>
+            <button type="submit" style="background-color: red;" onclick="sendData()">Send</button>
+		<script>
+const sendData = () => {
+	const to = document.getElementById("rmail").value
+	const sub = document.getElementById("subject").value
+	const msg = document.getElementById("msg").value
+	fetch('/send',{
+		method:'POST',
+		headers: {
+			'Accept': 'application/json, text/plain, */*',
+			'Content-Type': 'application/json'
+		},
+
+		body:JSON.stringify({
+			rmail:to,
+			subject:sub,
+			message:msg
+		})
+	})
+		.then(res=>res.json())
+		.then(res=>alert(res.msg))
+}
+
+		</script>
     </body>
 </html>             
